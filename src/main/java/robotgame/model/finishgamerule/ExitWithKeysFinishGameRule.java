@@ -2,6 +2,7 @@ package robotgame.model.finishgamerule;
 
 import robotgame.model.HexagonDirection;
 import robotgame.model.HexagonField;
+import robotgame.model.PathChecker;
 import robotgame.model.cell.Cell;
 import robotgame.model.cell.ExitCell;
 import robotgame.model.cellobject.CellObject;
@@ -9,6 +10,7 @@ import robotgame.model.cellobject.Key;
 import robotgame.model.cellobject.Robot;
 
 import java.awt.*;
+import java.util.List;
 
 public class ExitWithKeysFinishGameRule implements FinishGameRule {
 
@@ -17,40 +19,24 @@ public class ExitWithKeysFinishGameRule implements FinishGameRule {
 
     @Override
     public void handleGameState(HexagonField field) {
-        Point robotPosition = null;
+        List<CellObject> spawnedObjects = field.getSpawnedObjects();
+
         Robot robot = null;
         int keysCount = 0;
-
-        for (int x = 0; x < field.getWidth(); x++){
-            for (int y = 0; y < field.getHeight(); y++){
-                Cell cell = field.getCell(new Point(x, y));
-                CellObject objectInCell = cell.getContainedObject();
-
-                if (objectInCell instanceof Key){
-                    keysCount++;
-                }
-                else if (objectInCell instanceof Robot r){
-                    robotPosition = new Point(x, y);
-                    robot = r;
-                }
+        for (CellObject cellObject : spawnedObjects){
+            if (cellObject instanceof Key){
+                keysCount++;
+            }
+            else if (cellObject instanceof Robot){
+                robot = (Robot) cellObject;
             }
         }
 
-        if (field.getCell(robotPosition) instanceof ExitCell && keysCount == 0){
+        if (field.getCell(robot.getPosition()) instanceof ExitCell && keysCount == 0){
             isGameOver = true;
             isPlayerWin = true;
         }
-        else {
-            for (HexagonDirection direction : HexagonDirection.values()){ // TODO change to path find to exit
-                Point deltaPosition = direction.toPoint(robotPosition.y % 2 == 1);
-                Point neighborPosition = new Point(robotPosition);
-                neighborPosition.translate(deltaPosition.x, deltaPosition.y);
-
-                if (robot.isPositionValidForMove(neighborPosition)){
-                    return;
-                }
-            }
-
+        else if (!new PathChecker(field).IsRobotCanReachExit()) {
             isGameOver = true;
             isPlayerWin = false;
         }

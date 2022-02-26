@@ -77,4 +77,8 @@ public class HexagonField {
     public int getHeight() {
         return height;
     }
+
+    public List<CellObject> getSpawnedObjects() {
+        return spawnedObjects;
+    }
 }

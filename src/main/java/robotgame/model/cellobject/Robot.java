@@ -7,11 +7,10 @@ import robotgame.model.cell.ColoredCell;
 
 import java.awt.*;
 
-public class Robot implements CellObject {
+public class Robot extends CellObject {
 
     private final HexagonField field;
     private final Color footprintColor;
-    private Point currentPosition;
 
     public Robot(HexagonField field, Color footprintColor){
         this.field = field;
@@ -26,18 +25,11 @@ public class Robot implements CellObject {
         if (isPositionValidForMove(currentPosition)){
             Cell cell = field.getCell(currentPosition);
 
-            // Color current cell in robot's footprint color
-            if (cell instanceof ColoredCell coloredCell){
-                coloredCell.setCurrentColor(footprintColor);
-            }
-
-            // If cell contains key robot will collect it
             CellObject objectInCell = cell.getContainedObject();
             if (objectInCell != null){
                 field.despawnObject(objectInCell);
             }
 
-            // Move robot through despawn and spawn in next position
             field.despawnObject(this);
             field.spawnObject(this, currentPosition);
         }
@@ -57,8 +49,8 @@ public class Robot implements CellObject {
     }
 
     @Override
-    public void onSpawned(Point position) { // TODO добавить вместо деспавна/спавна перенос без вызова onSpawn
-        currentPosition = position;
+    public void onSpawned(Point position) {
+        super.onSpawned(position);
         Cell cell = field.getCell(currentPosition);
 
         if (cell instanceof ColoredCell coloredCell){

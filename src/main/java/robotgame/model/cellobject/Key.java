@@ -2,8 +2,6 @@ package robotgame.model.cellobject;
 
 import java.awt.*;
 
-public class Key implements CellObject {
+public class Key extends CellObject {
 
-    @Override
-    public void onSpawned(Point position) {}
 }
