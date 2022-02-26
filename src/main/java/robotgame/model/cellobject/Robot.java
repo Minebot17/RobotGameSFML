@@ -57,7 +57,12 @@ public class Robot implements CellObject {
     }
 
     @Override
-    public void onSpawned(Point position) {
+    public void onSpawned(Point position) { // TODO добавить вместо деспавна/спавна перенос без вызова onSpawn
         currentPosition = position;
+        Cell cell = field.getCell(currentPosition);
+
+        if (cell instanceof ColoredCell coloredCell){
+            coloredCell.setCurrentColor(footprintColor);
+        }
     }
 }

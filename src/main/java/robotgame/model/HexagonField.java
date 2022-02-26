@@ -4,6 +4,7 @@ import robotgame.model.cell.Cell;
 import robotgame.model.cell.ColoredCell;
 import robotgame.model.cell.ExitCell;
 import robotgame.model.cellobject.CellObject;
+import robotgame.model.cellobject.Robot;
 
 import java.awt.*;
 import java.security.InvalidParameterException;
@@ -40,12 +41,13 @@ public class HexagonField {
         Cell currentCell = cells[position.x][position.y];
         if (spawnedObjects.contains(cellObject)
                 || currentCell.getContainedObject() != null
-                || !currentCell.canContainsObjects()){
+                || (!(cellObject instanceof Robot) && !currentCell.canContainsObjects())){
             throw new InvalidParameterException();
         }
 
         spawnedObjects.add(cellObject);
         cells[position.x][position.y].setContainedObject(cellObject);
+        cellObject.onSpawned(position);
     }
 
     public void despawnObject(CellObject cellObject){

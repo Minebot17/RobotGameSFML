@@ -1,5 +1,7 @@
 package robotgame.model;
 
+import robotgame.model.cell.Cell;
+import robotgame.model.cell.ColoredCell;
 import robotgame.model.cellobject.CellObject;
 import robotgame.model.cellobject.Key;
 import robotgame.model.cellobject.Robot;
@@ -28,7 +30,7 @@ public class Game {
         spawnObjectInRandomPosition(robot);
     }
 
-    public void MoveRobot(HexagonDirection direction){
+    public void moveRobot(HexagonDirection direction){
         if (finishGameRule.isGameOver()){
             return;
         }
@@ -43,6 +45,10 @@ public class Game {
 
     public boolean isPlayerWin(){
         return finishGameRule.isPlayerWin();
+    }
+
+    public HexagonField getField() {
+        return field;
     }
 
     private void spawnObjectInRandomPosition(CellObject cellObject){
