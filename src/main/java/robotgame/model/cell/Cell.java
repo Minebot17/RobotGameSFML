@@ -2,7 +2,7 @@ package robotgame.model.cell;
 
 import robotgame.model.cellobject.CellObject;
 
-public class Cell {
+public abstract class Cell {
 
     private CellObject containedObject;
 
@@ -13,4 +13,6 @@ public class Cell {
     public void setContainedObject(CellObject containedObject) {
         this.containedObject = containedObject;
     }
+
+    public abstract boolean canContainsObjects();
 }

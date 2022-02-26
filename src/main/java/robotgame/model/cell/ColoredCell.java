@@ -13,4 +13,9 @@ public class ColoredCell extends Cell {
     public void setCurrentColor(Color currentColor) {
         this.currentColor = currentColor;
     }
+
+    @Override
+    public boolean canContainsObjects() {
+        return true;
+    }
 }

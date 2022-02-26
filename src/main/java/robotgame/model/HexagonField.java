@@ -1,6 +1,8 @@
 package robotgame.model;
 
 import robotgame.model.cell.Cell;
+import robotgame.model.cell.ColoredCell;
+import robotgame.model.cell.ExitCell;
 import robotgame.model.cellobject.CellObject;
 
 import java.awt.*;
@@ -12,21 +14,33 @@ public class HexagonField {
 
     private final Cell[][] cells;
     private final List<CellObject> spawnedObjects = new ArrayList<>();
+    private final int width;
+    private final int height;
 
     public HexagonField(int width, int height){
         if (width < 1 || height < 1){
             throw new InvalidParameterException();
         }
 
+        this.width = width;
+        this.height = height;
+
         cells = new Cell[height][width];
+        for (int x = 0; x < width; x++){
+            for (int y = 0; y < height; y++){
+                cells[x][y] = new ColoredCell();
+            }
+        }
+
+        Point exitPosition = Utils.getRandomPoint(width, height);
+        cells[exitPosition.x][exitPosition.y] = new ExitCell();
     }
 
     public void spawnObject(CellObject cellObject, Point position){
-        if (cells.length >= position.x || cells[0].length >= position.y){
-            throw new ArrayIndexOutOfBoundsException(position.toString());
-        }
-
-        if (spawnedObjects.contains(cellObject)){
+        Cell currentCell = cells[position.x][position.y];
+        if (spawnedObjects.contains(cellObject)
+                || currentCell.getContainedObject() != null
+                || !currentCell.canContainsObjects()){
             throw new InvalidParameterException();
         }
 
@@ -48,5 +62,17 @@ public class HexagonField {
         }
 
         spawnedObjects.remove(cellObject);
+    }
+
+    public Cell getCell(Point position){
+        return cells[position.x][position.y];
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }
