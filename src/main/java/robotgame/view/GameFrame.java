@@ -2,7 +2,7 @@ package robotgame.view;
 
 import robotgame.model.Game;
 import robotgame.model.HexagonDirection;
-import robotgame.model.finishgamerule.ExitWithKeysFinishGameRule;
+import robotgame.model.finishgamerule.ExitWithKeysFinishGameRuleFactory;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -13,7 +13,7 @@ public class GameFrame extends JFrame {
     private final Game game;
 
     public GameFrame() {
-        game = new Game(new ExitWithKeysFinishGameRule(), 8, 8, 3);
+        game = new Game(new ExitWithKeysFinishGameRuleFactory(), 8, 8, 3);
         HexagonFieldView hexagonFieldView = new HexagonFieldView(game.getField());
 
         setContentPane(hexagonFieldView);

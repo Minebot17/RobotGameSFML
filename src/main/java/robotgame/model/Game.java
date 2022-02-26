@@ -1,11 +1,10 @@
 package robotgame.model;
 
-import robotgame.model.cell.Cell;
-import robotgame.model.cell.ColoredCell;
 import robotgame.model.cellobject.CellObject;
 import robotgame.model.cellobject.Key;
 import robotgame.model.cellobject.Robot;
 import robotgame.model.finishgamerule.FinishGameRule;
+import robotgame.model.finishgamerule.FinishGameRuleFactory;
 
 import java.awt.*;
 import java.security.InvalidParameterException;
@@ -16,10 +15,9 @@ public class Game {
     private final FinishGameRule finishGameRule;
     private final Robot robot;
 
-    public Game(FinishGameRule finishGameRule, int fieldWidth, int fieldHeight, int toSpawnKeysCount){
-        this.finishGameRule = finishGameRule;
-
+    public Game(FinishGameRuleFactory finishGameRuleFactory, int fieldWidth, int fieldHeight, int toSpawnKeysCount){
         field = new HexagonField(fieldWidth, fieldHeight);
+        this.finishGameRule = finishGameRuleFactory.create(field);
         int keysCount = Utils.rnd.nextInt(toSpawnKeysCount) + 1;
 
         for (int i = 0; i < keysCount; i++){
@@ -36,7 +34,7 @@ public class Game {
         }
 
         robot.move(direction);
-        finishGameRule.handleGameState(field);
+        finishGameRule.updateGameState();
     }
 
     public boolean isGameOver(){

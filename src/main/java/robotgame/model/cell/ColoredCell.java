@@ -15,7 +15,7 @@ public class ColoredCell extends Cell {
     }
 
     @Override
-    public boolean canContainsObjects() {
+    public boolean canContainsOnlyRobot() {
         return true;
     }
 }

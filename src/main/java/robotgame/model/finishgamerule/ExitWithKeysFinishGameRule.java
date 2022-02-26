@@ -1,24 +1,26 @@
 package robotgame.model.finishgamerule;
 
-import robotgame.model.HexagonDirection;
 import robotgame.model.HexagonField;
-import robotgame.model.PathChecker;
-import robotgame.model.cell.Cell;
+import robotgame.model.Utils;
 import robotgame.model.cell.ExitCell;
 import robotgame.model.cellobject.CellObject;
 import robotgame.model.cellobject.Key;
 import robotgame.model.cellobject.Robot;
 
-import java.awt.*;
 import java.util.List;
 
 public class ExitWithKeysFinishGameRule implements FinishGameRule {
 
+    private final HexagonField field;
     private boolean isGameOver;
     private boolean isPlayerWin;
 
+    public ExitWithKeysFinishGameRule(HexagonField field){
+        this.field = field;
+    }
+
     @Override
-    public void handleGameState(HexagonField field) {
+    public void updateGameState() {
         List<CellObject> spawnedObjects = field.getSpawnedObjects();
 
         Robot robot = null;
@@ -36,7 +38,7 @@ public class ExitWithKeysFinishGameRule implements FinishGameRule {
             isGameOver = true;
             isPlayerWin = true;
         }
-        else if (!new PathChecker(field).IsRobotCanReachExit()) {
+        else if (!Utils.isRobotCanReachExit(field)) {
             isGameOver = true;
             isPlayerWin = false;
         }

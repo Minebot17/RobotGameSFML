@@ -1,12 +1,9 @@
 package robotgame.view;
 
 import robotgame.model.HexagonField;
-import robotgame.model.cell.Cell;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 public class HexagonFieldView extends JPanel {
 

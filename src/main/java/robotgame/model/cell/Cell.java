@@ -14,5 +14,5 @@ public abstract class Cell {
         this.containedObject = containedObject;
     }
 
-    public abstract boolean canContainsObjects();
+    public abstract boolean canContainsOnlyRobot();
 }

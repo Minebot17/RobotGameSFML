@@ -1,10 +1,8 @@
 package robotgame.model.finishgamerule;
 
-import robotgame.model.HexagonField;
-
 public interface FinishGameRule {
 
-    void handleGameState(HexagonField field);
+    void updateGameState();
 
     boolean isGameOver();
     boolean isPlayerWin();

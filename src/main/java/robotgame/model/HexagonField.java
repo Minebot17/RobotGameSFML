@@ -41,7 +41,7 @@ public class HexagonField {
         Cell currentCell = cells[position.x][position.y];
         if (spawnedObjects.contains(cellObject)
                 || currentCell.getContainedObject() != null
-                || (!(cellObject instanceof Robot) && !currentCell.canContainsObjects())){
+                || (!(cellObject instanceof Robot) && !currentCell.canContainsOnlyRobot())){
             throw new InvalidParameterException();
         }
 
