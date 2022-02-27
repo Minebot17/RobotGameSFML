@@ -41,7 +41,7 @@ public class Robot extends CellObject {
     public boolean isPositionValidForMove(Point point){
         try {
             Cell cell = field.getCell(point);
-            return !(cell instanceof ColoredCell coloredCell) || !footprintColor.equals(coloredCell.getCurrentColor());
+            return !(cell instanceof ColoredCell) || !footprintColor.equals(((ColoredCell)cell).getCurrentColor());
         }
         catch (ArrayIndexOutOfBoundsException e){
             return false;
@@ -53,8 +53,8 @@ public class Robot extends CellObject {
         super.onSpawned(position);
         Cell cell = field.getCell(currentPosition);
 
-        if (cell instanceof ColoredCell coloredCell){
-            coloredCell.setCurrentColor(footprintColor);
+        if (cell instanceof ColoredCell){
+            ((ColoredCell)cell).setCurrentColor(footprintColor);
         }
     }
 }

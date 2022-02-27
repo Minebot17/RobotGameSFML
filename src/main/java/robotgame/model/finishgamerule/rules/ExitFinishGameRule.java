@@ -32,6 +32,11 @@ public class ExitFinishGameRule extends BaseGameRule {
 
     @Override
     protected boolean isFail() {
-        return Utils.isRobotCanReach(field, true);
+        return !Utils.isRobotCanReach(field, true);
+    }
+
+    @Override
+    public String toString() {
+        return "достигнуть выхода (метка ET)";
     }
 }

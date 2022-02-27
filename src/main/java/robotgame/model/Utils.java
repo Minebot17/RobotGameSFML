@@ -5,6 +5,7 @@ import robotgame.model.cell.ExitCell;
 import robotgame.model.cellobject.CellObject;
 import robotgame.model.cellobject.Key;
 import robotgame.model.cellobject.Robot;
+import robotgame.model.finishgamerule.FinishGameRulesHandler;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -28,9 +29,9 @@ public class Utils {
                 Cell cell = field.getCell(new Point(x, y));
                 CellObject objectInCell = cell.getContainedObject();
 
-                if (objectInCell instanceof Robot r){
+                if (objectInCell instanceof Robot){
                     robotPosition = new Point(x, y);
-                    robot = r;
+                    robot = (Robot) objectInCell;
                 }
             }
         }
@@ -65,5 +66,42 @@ public class Utils {
         }
 
         return false;
+    }
+
+    public static String toString(List<FinishGameRulesHandler.RuleParameters> gameRulesParameters) {
+        StringBuilder result = new StringBuilder();
+        for (FinishGameRulesHandler.RuleParameters parameters : gameRulesParameters) {
+            if (parameters.isIndependent){
+                continue;
+            }
+
+            if (result.length() != 0) {
+                result.append(" И ");
+            }
+
+            if (parameters.completeConditionsIsNegative){
+                result.append("НЕ ");
+            }
+
+            result.append(parameters.toStringRule());
+        }
+
+        for (FinishGameRulesHandler.RuleParameters parameters : gameRulesParameters) {
+            if (!parameters.isIndependent) {
+                continue;
+            }
+
+            if (result.length() != 0) {
+                result.append(" ИЛИ ");
+            }
+
+            if (parameters.completeConditionsIsNegative){
+                result.append("НЕ ");
+            }
+
+            result.append(parameters.toStringRule());
+        }
+
+        return result.toString();
     }
 }

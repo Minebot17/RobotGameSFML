@@ -2,17 +2,46 @@ package robotgame.view;
 
 import robotgame.model.Game;
 import robotgame.model.HexagonDirection;
+import robotgame.model.Utils;
+import robotgame.model.finishgamerule.FinishGameRulesHandler;
+import robotgame.model.finishgamerule.FinishGameRulesHandlerFactory;
+import robotgame.model.finishgamerule.rules.ExitFinishGameRuleFactory;
+import robotgame.model.finishgamerule.rules.KeysFinishGameRuleFactory;
+import robotgame.model.finishgamerule.rules.RobotStepsFinishGameRule;
+import robotgame.model.finishgamerule.rules.RobotStepsFinishGameRuleFactory;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameFrame extends JFrame {
 
     private final Game game;
+    private final List<FinishGameRulesHandlerFactory> rulesList = new ArrayList<>(){{
+        add(new FinishGameRulesHandlerFactory(new ArrayList<>() {{
+            add(new FinishGameRulesHandler.RuleParameters(new KeysFinishGameRuleFactory(), false, false));
+            add(new FinishGameRulesHandler.RuleParameters(new ExitFinishGameRuleFactory(), false, false));
+        }}));
+        add(new FinishGameRulesHandlerFactory(new ArrayList<>() {{
+            add(new FinishGameRulesHandler.RuleParameters(new KeysFinishGameRuleFactory(), true, false));
+            add(new FinishGameRulesHandler.RuleParameters(new ExitFinishGameRuleFactory(), false, false));
+        }}));
+        add(new FinishGameRulesHandlerFactory(new ArrayList<>() {{
+            add(new FinishGameRulesHandler.RuleParameters(new KeysFinishGameRuleFactory(), false, true));
+            add(new FinishGameRulesHandler.RuleParameters(new ExitFinishGameRuleFactory(), false, true));
+        }}));
+        add(new FinishGameRulesHandlerFactory(new ArrayList<>() {{
+            add(new FinishGameRulesHandler.RuleParameters(new RobotStepsFinishGameRuleFactory(RobotStepsFinishGameRule.RuleMode.MORE, 10), false, false));
+            add(new FinishGameRulesHandler.RuleParameters(new ExitFinishGameRuleFactory(), false, false));
+        }}));
+    }};
 
     public GameFrame() {
-        game = new Game(new ExitWithKeysFinishGameRuleFactory(), 8, 8, 3);
+        FinishGameRulesHandlerFactory selectedHandlerFactory = rulesList.get(Utils.rnd.nextInt(rulesList.size()));
+        JOptionPane.showMessageDialog(null, selectedHandlerFactory.toString());
+        game = new Game(selectedHandlerFactory, 8, 8, 3);
         HexagonFieldView hexagonFieldView = new HexagonFieldView(game.getField());
 
         setContentPane(hexagonFieldView);

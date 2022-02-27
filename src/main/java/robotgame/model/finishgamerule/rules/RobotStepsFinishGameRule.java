@@ -34,8 +34,8 @@ public class RobotStepsFinishGameRule extends BaseGameRule {
             }
         }
 
-        if (lastRobotPosition != robot.getPosition()){
-            lastRobotPosition = robot.getPosition();
+        if (!robot.getPosition().equals(lastRobotPosition)){
+            lastRobotPosition = new Point(robot.getPosition());
             stepsCount++;
         }
 
@@ -67,6 +67,13 @@ public class RobotStepsFinishGameRule extends BaseGameRule {
             default:
                 return false;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "количество шагов должно быть "
+                + (ruleMode == RuleMode.LESS ? "меньше" : ruleMode == RuleMode.EQUALS ? "равно" : "больше")
+                + " " + value;
     }
 
     public enum RuleMode {

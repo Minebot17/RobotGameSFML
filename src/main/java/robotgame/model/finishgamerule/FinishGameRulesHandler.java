@@ -44,7 +44,7 @@ public class FinishGameRulesHandler {
                 haveNotIndependent = true;
                 notIndependentComplete &= isCompleteConditionsMet;
 
-                if (parameters.completeConditionsIsNegative) {
+                if (!parameters.completeConditionsIsNegative) {
                     notIndependentFail |= isFailConditionsMet;
                 }
             }
@@ -56,7 +56,7 @@ public class FinishGameRulesHandler {
 
                 independentCount++;
 
-                if (parameters.completeConditionsIsNegative && isFailConditionsMet){
+                if (!parameters.completeConditionsIsNegative && isFailConditionsMet){
                     failIndependentCount++;
                 }
             }
@@ -98,13 +98,51 @@ public class FinishGameRulesHandler {
         this.isPlayerWin = isPlayerWin;
     }
 
-    public class RuleParameters {
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        for (RuleParameters parameters : gameRulesParameters) {
+            if (parameters.isIndependent){
+                continue;
+            }
+
+            if (result.length() != 0) {
+                result.append(" И ");
+            }
+
+            if (parameters.completeConditionsIsNegative){
+                result.append("НЕ ");
+            }
+
+            result.append(parameters.rule.toString());
+        }
+
+        for (RuleParameters parameters : gameRulesParameters) {
+            if (!parameters.isIndependent) {
+                continue;
+            }
+
+            if (result.length() != 0) {
+                result.append(" ИЛИ ");
+            }
+
+            if (parameters.completeConditionsIsNegative){
+                result.append("НЕ ");
+            }
+
+            result.append(parameters.rule.toString());
+        }
+
+        return result.toString();
+    }
+
+    public static class RuleParameters {
 
         private FinishGameRuleFactory ruleFactory;
         private FinishGameRule rule;
 
-        private final boolean completeConditionsIsNegative;
-        private final boolean isIndependent;
+        public final boolean completeConditionsIsNegative;
+        public final boolean isIndependent;
 
         public RuleParameters(FinishGameRuleFactory ruleFactory, boolean completeConditionsIsNegative, boolean isIndependent) {
             this.ruleFactory = ruleFactory;
@@ -115,6 +153,10 @@ public class FinishGameRulesHandler {
         public void initialize(HexagonField field){
             rule = ruleFactory.create(field);
             ruleFactory = null;
+        }
+
+        public String toStringRule(){
+            return rule == null ? ruleFactory.create(null).toString() : rule.toString();
         }
     }
 }

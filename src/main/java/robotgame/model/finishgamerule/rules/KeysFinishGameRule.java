@@ -29,6 +29,11 @@ public class KeysFinishGameRule extends BaseGameRule {
 
     @Override
     protected boolean isFail() {
-        return Utils.isRobotCanReach(field, false);
+        return !Utils.isRobotCanReach(field, false);
+    }
+
+    @Override
+    public String toString() {
+        return "собрать все ключи (метка K)";
     }
 }
