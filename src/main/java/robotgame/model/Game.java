@@ -3,8 +3,8 @@ package robotgame.model;
 import robotgame.model.cellobject.CellObject;
 import robotgame.model.cellobject.Key;
 import robotgame.model.cellobject.Robot;
-import robotgame.model.finishgamerule.FinishGameRule;
-import robotgame.model.finishgamerule.FinishGameRuleFactory;
+import robotgame.model.finishgamerule.FinishGameRulesHandler;
+import robotgame.model.finishgamerule.FinishGameRulesHandlerFactory;
 
 import java.awt.*;
 import java.security.InvalidParameterException;
@@ -12,12 +12,12 @@ import java.security.InvalidParameterException;
 public class Game {
 
     private final HexagonField field;
-    private final FinishGameRule finishGameRule;
+    private final FinishGameRulesHandler finishGameRulesHandler;
     private final Robot robot;
 
-    public Game(FinishGameRuleFactory finishGameRuleFactory, int fieldWidth, int fieldHeight, int toSpawnKeysCount){
+    public Game(FinishGameRulesHandlerFactory finishGameRulesHandlerFactoryFactory, int fieldWidth, int fieldHeight, int toSpawnKeysCount){
         field = new HexagonField(fieldWidth, fieldHeight);
-        this.finishGameRule = finishGameRuleFactory.create(field);
+        this.finishGameRulesHandler = finishGameRulesHandlerFactoryFactory.create(field);
         int keysCount = Utils.rnd.nextInt(toSpawnKeysCount) + 1;
 
         for (int i = 0; i < keysCount; i++){
@@ -29,20 +29,20 @@ public class Game {
     }
 
     public void moveRobot(HexagonDirection direction){
-        if (finishGameRule.isGameOver()){
+        if (finishGameRulesHandler.isGameOver()){
             return;
         }
 
         robot.move(direction);
-        finishGameRule.updateGameState();
+        finishGameRulesHandler.updateGameState();
     }
 
     public boolean isGameOver(){
-        return finishGameRule.isGameOver();
+        return finishGameRulesHandler.isGameOver();
     }
 
     public boolean isPlayerWin(){
-        return finishGameRule.isPlayerWin();
+        return finishGameRulesHandler.isPlayerWin();
     }
 
     public HexagonField getField() {

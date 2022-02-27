@@ -3,6 +3,7 @@ package robotgame.model;
 import robotgame.model.cell.Cell;
 import robotgame.model.cell.ExitCell;
 import robotgame.model.cellobject.CellObject;
+import robotgame.model.cellobject.Key;
 import robotgame.model.cellobject.Robot;
 
 import java.awt.*;
@@ -18,7 +19,7 @@ public class Utils {
         return new Point(rnd.nextInt(xMax), rnd.nextInt(yMax));
     }
 
-    public static boolean isRobotCanReachExit(HexagonField field){
+    public static boolean isRobotCanReach(HexagonField field, boolean exit){
         Point robotPosition = null;
         robotgame.model.cellobject.Robot robot = null;
 
@@ -52,7 +53,11 @@ public class Utils {
                 }
             }
 
-            if (field.getCell(currentPosition) instanceof ExitCell){
+            if (exit && field.getCell(currentPosition) instanceof ExitCell){
+                return true;
+            }
+
+            if (!exit && field.getCell(currentPosition).getContainedObject() instanceof Key){
                 return true;
             }
 

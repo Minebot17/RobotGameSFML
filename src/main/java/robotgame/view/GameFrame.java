@@ -2,7 +2,6 @@ package robotgame.view;
 
 import robotgame.model.Game;
 import robotgame.model.HexagonDirection;
-import robotgame.model.finishgamerule.ExitWithKeysFinishGameRuleFactory;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
