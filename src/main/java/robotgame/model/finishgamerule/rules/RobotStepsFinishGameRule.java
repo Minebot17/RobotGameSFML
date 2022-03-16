@@ -2,18 +2,18 @@ package robotgame.model.finishgamerule.rules;
 
 import robotgame.model.HexagonField;
 import robotgame.model.Position;
+import robotgame.model.cell.Cell;
 import robotgame.model.cellobject.CellObject;
 import robotgame.model.cellobject.Robot;
 import robotgame.model.finishgamerule.BaseGameRule;
 
-import java.awt.*;
 import java.util.List;
 
 public class RobotStepsFinishGameRule extends BaseGameRule {
 
     private final RuleMode ruleMode;
     private final int value;
-    private Position lastRobotPosition = null;
+    private Cell lastRobotCell = null;
     private int stepsCount;
 
     public RobotStepsFinishGameRule(HexagonField field, RuleMode ruleMode, int value) {
@@ -25,18 +25,10 @@ public class RobotStepsFinishGameRule extends BaseGameRule {
 
     @Override
     public void updateGameState() {
-        List<CellObject> spawnedObjects = field.getSpawnedObjects();
-        Robot robot = null;
+        Robot robot = (Robot) field.getSpawnedObjects().stream().filter(obj -> obj instanceof Robot).findFirst().orElse(null);
 
-        for (CellObject cellObject : spawnedObjects){
-            if (cellObject instanceof Robot){
-                robot = (Robot) cellObject;
-                break;
-            }
-        }
-
-        if (!robot.getPosition().equals(lastRobotPosition)){
-            lastRobotPosition = new Position(robot.getPosition());
+        if (!robot.getCurrentCell().equals(lastRobotCell)){
+            lastRobotCell = robot.getCurrentCell();
             stepsCount++;
         }
 

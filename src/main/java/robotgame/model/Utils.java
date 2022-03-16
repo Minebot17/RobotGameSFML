@@ -2,7 +2,6 @@ package robotgame.model;
 
 import robotgame.model.cell.Cell;
 import robotgame.model.cell.ExitCell;
-import robotgame.model.cellobject.CellObject;
 import robotgame.model.cellobject.Key;
 import robotgame.model.cellobject.Robot;
 import robotgame.model.finishgamerule.FinishGameRulesHandler;
@@ -20,46 +19,33 @@ public class Utils {
     }
 
     public static boolean isRobotCanReach(HexagonField field, boolean exit){
-        Position robotPosition = null;
-        robotgame.model.cellobject.Robot robot = null;
+        Robot robot = (Robot) field.getSpawnedObjects().stream().filter(obj -> obj instanceof Robot).findFirst().orElse(null);
 
-        for (int x = 0; x < field.getWidth(); x++){
-            for (int y = 0; y < field.getHeight(); y++){
-                Cell cell = field.getCell(new Position(x, y));
-                CellObject objectInCell = cell.getContainedObject();
+        List<Cell> checkedCells = new ArrayList<>();
+        List<Cell> toCheckCells = new ArrayList<>();
+        toCheckCells.add(robot.getCurrentCell());
 
-                if (objectInCell instanceof Robot){
-                    robotPosition = new Position(x, y);
-                    robot = (Robot) objectInCell;
-                }
-            }
-        }
-
-        java.util.List<Position> checkedPositions = new ArrayList<>();
-        List<Position> toCheckPositions = new ArrayList<>();
-        toCheckPositions.add(robotPosition);
-
-        while (!toCheckPositions.isEmpty()){
-            Position currentPosition = toCheckPositions.get(0);
+        while (!toCheckCells.isEmpty()){
+            Cell currentCell = toCheckCells.get(0);
 
             for (HexagonDirection direction : HexagonDirection.values()){
-                Position nextPosition = currentPosition.add(direction.toPosition(currentPosition.y % 2 == 1));
+                Cell nextCell = currentCell.getNeighbor(direction);
 
-                if (robot.isPositionValidForMove(nextPosition) && !checkedPositions.contains(nextPosition)){
-                    toCheckPositions.add(nextPosition);
-                    checkedPositions.add(nextPosition);
+                if (nextCell != null && robot.isCellValidForMove(nextCell) && !checkedCells.contains(nextCell)){
+                    toCheckCells.add(nextCell);
+                    checkedCells.add(nextCell);
                 }
             }
 
-            if (exit && field.getCell(currentPosition) instanceof ExitCell){
+            if (exit && currentCell instanceof ExitCell){
                 return true;
             }
 
-            if (!exit && field.getCell(currentPosition).getContainedObject() instanceof Key){
+            if (!exit && currentCell.getContainedObject() instanceof Key){
                 return true;
             }
 
-            toCheckPositions.remove(0);
+            toCheckCells.remove(0);
         }
 
         return false;

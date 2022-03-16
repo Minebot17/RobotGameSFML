@@ -53,7 +53,7 @@ public class Game {
         do {
             try {
                 Position position = Utils.getRandomPoint(field.getWidth(), field.getHeight());
-                field.spawnObject(cellObject, position);
+                field.spawnObject(cellObject, field.getCell(position));
                 return;
             }
             catch (InvalidParameterException ignored){}

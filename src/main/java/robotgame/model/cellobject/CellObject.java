@@ -1,18 +1,16 @@
 package robotgame.model.cellobject;
 
-import robotgame.model.Position;
-
-import java.awt.*;
+import robotgame.model.cell.Cell;
 
 public class CellObject {
 
-    protected Position currentPosition;
+    protected Cell currentCell;
 
-    public void onSpawned(Position position){
-        currentPosition = position;
+    public void onSpawned(Cell cell){
+        currentCell = cell;
     }
 
-    public Position getPosition(){
-        return currentPosition;
+    public Cell getCurrentCell(){
+        return currentCell;
     }
 }

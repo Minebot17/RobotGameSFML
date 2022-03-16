@@ -6,7 +6,6 @@ import robotgame.model.cell.ExitCell;
 import robotgame.model.cellobject.CellObject;
 import robotgame.model.cellobject.Robot;
 
-import java.awt.*;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,25 +28,25 @@ public class HexagonField {
         cells = new Cell[height][width];
         for (int x = 0; x < width; x++){
             for (int y = 0; y < height; y++){
-                cells[x][y] = new ColoredCell();
+                cells[x][y] = new ColoredCell(this, new Position(x, y));
             }
         }
 
         Position exitPosition = Utils.getRandomPoint(width, height);
-        cells[exitPosition.x][exitPosition.y] = new ExitCell();
+        cells[exitPosition.x][exitPosition.y] = new ExitCell(this, exitPosition);
     }
 
-    public void spawnObject(CellObject cellObject, Position position){
-        Cell currentCell = cells[position.x][position.y];
+    public void spawnObject(CellObject cellObject, Cell cell){
         if (spawnedObjects.contains(cellObject)
-                || currentCell.getContainedObject() != null
-                || (!(cellObject instanceof Robot) && !currentCell.canContainsOnlyRobot())){
+                || cell.getContainedObject() != null
+                || (!(cellObject instanceof Robot) && !cell.canContainsOnlyRobot())){
             throw new InvalidParameterException();
         }
 
+        Cell targetCell = cells[cell.getPosition().x][cell.getPosition().y];
         spawnedObjects.add(cellObject);
-        cells[position.x][position.y].setContainedObject(cellObject);
-        cellObject.onSpawned(position);
+        targetCell.setContainedObject(cellObject);
+        cellObject.onSpawned(targetCell);
     }
 
     public void despawnObject(CellObject cellObject){
@@ -67,7 +66,12 @@ public class HexagonField {
     }
 
     public Cell getCell(Position position){
-        return cells[position.x][position.y];
+        try {
+            return cells[position.x][position.y];
+        }
+        catch (ArrayIndexOutOfBoundsException e){
+            return null;
+        }
     }
 
     public int getWidth() {

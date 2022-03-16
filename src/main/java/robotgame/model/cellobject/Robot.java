@@ -2,7 +2,6 @@ package robotgame.model.cellobject;
 
 import robotgame.model.HexagonDirection;
 import robotgame.model.HexagonField;
-import robotgame.model.Position;
 import robotgame.model.cell.Cell;
 import robotgame.model.cell.ColoredCell;
 
@@ -19,39 +18,29 @@ public class Robot extends CellObject {
     }
 
     public void move(HexagonDirection direction){
-        Position oldPosition = currentPosition;
-        currentPosition = currentPosition.add(direction.toPosition(currentPosition.y % 2 == 1));
+        Cell targetCell = currentCell.getNeighbor(direction);
 
-        if (isPositionValidForMove(currentPosition)){
-            Cell cell = field.getCell(currentPosition);
+        if (isCellValidForMove(targetCell)){
 
-            CellObject objectInCell = cell.getContainedObject();
+            CellObject objectInCell = targetCell.getContainedObject();
             if (objectInCell != null){
                 field.despawnObject(objectInCell);
             }
 
             field.despawnObject(this);
-            field.spawnObject(this, currentPosition);
-        }
-        else {
-            currentPosition = oldPosition;
+            field.spawnObject(this, targetCell);
         }
     }
 
-    public boolean isPositionValidForMove(Position position){
-        try {
-            Cell cell = field.getCell(position);
-            return !(cell instanceof ColoredCell) || !footprintColor.equals(((ColoredCell)cell).getCurrentColor());
-        }
-        catch (ArrayIndexOutOfBoundsException e){
-            return false;
-        }
+    public boolean isCellValidForMove(Cell cell){
+        return cell != null
+                && (!(cell instanceof ColoredCell)
+                    || !footprintColor.equals(((ColoredCell)cell).getCurrentColor()));
     }
 
     @Override
-    public void onSpawned(Position position) {
-        super.onSpawned(position);
-        Cell cell = field.getCell(currentPosition);
+    public void onSpawned(Cell cell) {
+        super.onSpawned(cell);
 
         if (cell instanceof ColoredCell){
             ((ColoredCell)cell).setCurrentColor(footprintColor);
