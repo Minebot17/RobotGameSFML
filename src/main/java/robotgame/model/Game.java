@@ -52,7 +52,7 @@ public class Game {
     private void spawnObjectInRandomPosition(CellObject cellObject){
         do {
             try {
-                Point position = Utils.getRandomPoint(field.getWidth(), field.getHeight());
+                Position position = Utils.getRandomPoint(field.getWidth(), field.getHeight());
                 field.spawnObject(cellObject, position);
                 return;
             }

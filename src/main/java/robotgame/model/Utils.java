@@ -7,7 +7,6 @@ import robotgame.model.cellobject.Key;
 import robotgame.model.cellobject.Robot;
 import robotgame.model.finishgamerule.FinishGameRulesHandler;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,37 +15,35 @@ public class Utils {
 
     public static Random rnd = new Random();
 
-    public static Point getRandomPoint(int xMax, int yMax){
-        return new Point(rnd.nextInt(xMax), rnd.nextInt(yMax));
+    public static Position getRandomPoint(int xMax, int yMax){
+        return new Position(rnd.nextInt(xMax), rnd.nextInt(yMax));
     }
 
     public static boolean isRobotCanReach(HexagonField field, boolean exit){
-        Point robotPosition = null;
+        Position robotPosition = null;
         robotgame.model.cellobject.Robot robot = null;
 
         for (int x = 0; x < field.getWidth(); x++){
             for (int y = 0; y < field.getHeight(); y++){
-                Cell cell = field.getCell(new Point(x, y));
+                Cell cell = field.getCell(new Position(x, y));
                 CellObject objectInCell = cell.getContainedObject();
 
                 if (objectInCell instanceof Robot){
-                    robotPosition = new Point(x, y);
+                    robotPosition = new Position(x, y);
                     robot = (Robot) objectInCell;
                 }
             }
         }
 
-        java.util.List<Point> checkedPositions = new ArrayList<>();
-        List<Point> toCheckPositions = new ArrayList<>();
+        java.util.List<Position> checkedPositions = new ArrayList<>();
+        List<Position> toCheckPositions = new ArrayList<>();
         toCheckPositions.add(robotPosition);
 
         while (!toCheckPositions.isEmpty()){
-            Point currentPosition = toCheckPositions.get(0);
+            Position currentPosition = toCheckPositions.get(0);
 
             for (HexagonDirection direction : HexagonDirection.values()){
-                Point deltaPosition = direction.toPoint(currentPosition.y % 2 == 1);
-                Point nextPosition = new Point(currentPosition);
-                nextPosition.translate(deltaPosition.x, deltaPosition.y);
+                Position nextPosition = currentPosition.add(direction.toPosition(currentPosition.y % 2 == 1));
 
                 if (robot.isPositionValidForMove(nextPosition) && !checkedPositions.contains(nextPosition)){
                     toCheckPositions.add(nextPosition);

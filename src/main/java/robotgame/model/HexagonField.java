@@ -33,11 +33,11 @@ public class HexagonField {
             }
         }
 
-        Point exitPosition = Utils.getRandomPoint(width, height);
+        Position exitPosition = Utils.getRandomPoint(width, height);
         cells[exitPosition.x][exitPosition.y] = new ExitCell();
     }
 
-    public void spawnObject(CellObject cellObject, Point position){
+    public void spawnObject(CellObject cellObject, Position position){
         Cell currentCell = cells[position.x][position.y];
         if (spawnedObjects.contains(cellObject)
                 || currentCell.getContainedObject() != null
@@ -66,7 +66,7 @@ public class HexagonField {
         spawnedObjects.remove(cellObject);
     }
 
-    public Cell getCell(Point position){
+    public Cell getCell(Position position){
         return cells[position.x][position.y];
     }
 

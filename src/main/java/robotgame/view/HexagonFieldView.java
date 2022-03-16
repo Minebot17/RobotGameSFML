@@ -1,13 +1,14 @@
 package robotgame.view;
 
 import robotgame.model.HexagonField;
+import robotgame.model.Position;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class HexagonFieldView extends JPanel {
 
-    private final Point margins = new Point(10, 10);
+    private final Position margins = new Position(10, 10);
 
     public HexagonFieldView(HexagonField field) {
         setLayout(null);
@@ -21,7 +22,7 @@ public class HexagonFieldView extends JPanel {
                 int modelY = field.getHeight() - y - 1;
                 boolean withOffset = modelY % 2 == 0;
 
-                CellView cellView = new CellView(field.getCell(new Point(x, modelY)));
+                CellView cellView = new CellView(field.getCell(new Position(x, modelY)));
                 cellView.setBounds(
                         (int)(margins.x + CellView.CELL_SIZE * CellView.CELL_WIDTH_MOD * (x + (withOffset ? 0.5f : 0))),
                         (int)(margins.y + CellView.CELL_SIZE * y * 0.75f),

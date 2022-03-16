@@ -2,6 +2,7 @@ package robotgame.model.cellobject;
 
 import robotgame.model.HexagonDirection;
 import robotgame.model.HexagonField;
+import robotgame.model.Position;
 import robotgame.model.cell.Cell;
 import robotgame.model.cell.ColoredCell;
 
@@ -18,9 +19,8 @@ public class Robot extends CellObject {
     }
 
     public void move(HexagonDirection direction){
-        Point oldPosition = new Point(currentPosition);
-        Point deltaPosition = direction.toPoint(currentPosition.y % 2 == 1);
-        currentPosition.translate(deltaPosition.x, deltaPosition.y);
+        Position oldPosition = currentPosition;
+        currentPosition = currentPosition.add(direction.toPosition(currentPosition.y % 2 == 1));
 
         if (isPositionValidForMove(currentPosition)){
             Cell cell = field.getCell(currentPosition);
@@ -38,9 +38,9 @@ public class Robot extends CellObject {
         }
     }
 
-    public boolean isPositionValidForMove(Point point){
+    public boolean isPositionValidForMove(Position position){
         try {
-            Cell cell = field.getCell(point);
+            Cell cell = field.getCell(position);
             return !(cell instanceof ColoredCell) || !footprintColor.equals(((ColoredCell)cell).getCurrentColor());
         }
         catch (ArrayIndexOutOfBoundsException e){
@@ -49,7 +49,7 @@ public class Robot extends CellObject {
     }
 
     @Override
-    public void onSpawned(Point position) {
+    public void onSpawned(Position position) {
         super.onSpawned(position);
         Cell cell = field.getCell(currentPosition);
 
