@@ -23,7 +23,7 @@ public class Utils {
 
         List<Cell> checkedCells = new ArrayList<>();
         List<Cell> toCheckCells = new ArrayList<>();
-        toCheckCells.add(robot.getCurrentCell());
+        toCheckCells.add(robot.getCell());
 
         while (!toCheckCells.isEmpty()){
             Cell currentCell = toCheckCells.get(0);

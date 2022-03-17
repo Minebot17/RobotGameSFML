@@ -43,10 +43,8 @@ public class HexagonField {
             throw new InvalidParameterException();
         }
 
-        Cell targetCell = cells[cell.getPosition().x][cell.getPosition().y];
         spawnedObjects.add(cellObject);
-        targetCell.setContainedObject(cellObject);
-        cellObject.onSpawned(targetCell);
+        cell.setContainedObject(cellObject);
     }
 
     public void despawnObject(CellObject cellObject){

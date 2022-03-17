@@ -20,17 +20,19 @@ public abstract class Cell {
         return field.getCell(direction.toPosition(position.y % 2 == 1).add(position));
     }
 
-    public CellObject getContainedObject() {
-        return containedObject;
-    }
-
-    public void setContainedObject(CellObject containedObject) {
-        this.containedObject = containedObject;
-    }
-
     public abstract boolean canContainsOnlyRobot();
 
-    public Position getPosition() {
-        return position;
+    public void setContainedObject(CellObject mutualCellObject) {
+        if (this.containedObject != null && mutualCellObject == null) {
+            CellObject old = this.containedObject;
+            this.containedObject = null;
+            old.setCell(null);
+        }
+        else if (this.containedObject == null && mutualCellObject != null) {
+            this.containedObject = mutualCellObject;
+            this.containedObject.setCell(this);
+        }
     }
+
+    public CellObject getContainedObject() { return containedObject; }
 }

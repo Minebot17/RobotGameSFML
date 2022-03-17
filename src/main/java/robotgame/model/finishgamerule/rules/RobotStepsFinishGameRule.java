@@ -27,8 +27,8 @@ public class RobotStepsFinishGameRule extends BaseGameRule {
     public void updateGameState() {
         Robot robot = (Robot) field.getSpawnedObjects().stream().filter(obj -> obj instanceof Robot).findFirst().orElse(null);
 
-        if (!robot.getCurrentCell().equals(lastRobotCell)){
-            lastRobotCell = robot.getCurrentCell();
+        if (!robot.getCell().equals(lastRobotCell)){
+            lastRobotCell = robot.getCell();
             stepsCount++;
         }
 

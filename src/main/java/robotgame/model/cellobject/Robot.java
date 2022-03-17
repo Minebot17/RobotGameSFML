@@ -18,7 +18,7 @@ public class Robot extends CellObject {
     }
 
     public void move(HexagonDirection direction){
-        Cell targetCell = currentCell.getNeighbor(direction);
+        Cell targetCell = getCell().getNeighbor(direction);
 
         if (isCellValidForMove(targetCell)){
 
@@ -39,8 +39,8 @@ public class Robot extends CellObject {
     }
 
     @Override
-    public void onSpawned(Cell cell) {
-        super.onSpawned(cell);
+    public void setCell(Cell cell) {
+        super.setCell(cell);
 
         if (cell instanceof ColoredCell){
             ((ColoredCell)cell).setCurrentColor(footprintColor);

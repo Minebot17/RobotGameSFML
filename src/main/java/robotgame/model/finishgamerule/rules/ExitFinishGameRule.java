@@ -18,7 +18,7 @@ public class ExitFinishGameRule extends BaseGameRule {
     @Override
     protected boolean isComplete() {
         Robot robot = (Robot) field.getSpawnedObjects().stream().filter(obj -> obj instanceof Robot).findFirst().orElse(null);
-        return robot.getCurrentCell() instanceof ExitCell;
+        return robot.getCell() instanceof ExitCell;
     }
 
     @Override
