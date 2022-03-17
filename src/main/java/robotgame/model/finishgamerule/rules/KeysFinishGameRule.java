@@ -29,7 +29,7 @@ public class KeysFinishGameRule extends BaseGameRule {
 
     @Override
     protected boolean isFail() {
-        return !Utils.isRobotCanReach(field, false);
+        return !field.isRobotCanReach(false);
     }
 
     @Override

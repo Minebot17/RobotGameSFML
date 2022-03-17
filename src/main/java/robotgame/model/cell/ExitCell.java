@@ -8,9 +8,4 @@ public class ExitCell extends Cell {
     public ExitCell(HexagonField field, Position currentPosition) {
         super(field, currentPosition);
     }
-
-    @Override
-    public boolean canContainsOnlyRobot() {
-        return false;
-    }
 }

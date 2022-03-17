@@ -19,6 +19,39 @@ public class FinishGameRulesHandlerFactory {
 
     @Override
     public String toString() {
-        return Utils.toString(gameRules);
+        StringBuilder result = new StringBuilder();
+        for (FinishGameRulesHandler.RuleParameters parameters : gameRules) {
+            if (parameters.ruleLinkType == RuleLinkType.OR){
+                continue;
+            }
+
+            if (result.length() != 0) {
+                result.append(" И ");
+            }
+
+            if (parameters.completeConditionsIsNegative){
+                result.append("НЕ ");
+            }
+
+            result.append(parameters.toStringRule());
+        }
+
+        for (FinishGameRulesHandler.RuleParameters parameters : gameRules) {
+            if (parameters.ruleLinkType != RuleLinkType.OR) {
+                continue;
+            }
+
+            if (result.length() != 0) {
+                result.append(" ИЛИ ");
+            }
+
+            if (parameters.completeConditionsIsNegative){
+                result.append("НЕ ");
+            }
+
+            result.append(parameters.toStringRule());
+        }
+
+        return result.toString();
     }
 }

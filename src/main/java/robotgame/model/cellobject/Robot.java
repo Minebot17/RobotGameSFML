@@ -35,7 +35,7 @@ public class Robot extends CellObject {
     public boolean isCellValidForMove(Cell cell){
         return cell != null
                 && (!(cell instanceof ColoredCell)
-                    || !footprintColor.equals(((ColoredCell)cell).getCurrentColor()));
+                    || !footprintColor.equals(((ColoredCell)cell).getCurrentFootprint()));
     }
 
     @Override
@@ -43,7 +43,7 @@ public class Robot extends CellObject {
         super.setCell(cell);
 
         if (cell instanceof ColoredCell){
-            ((ColoredCell)cell).setCurrentColor(footprintColor);
+            ((ColoredCell)cell).setCurrentFootprint(footprintColor);
         }
     }
 }

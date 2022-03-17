@@ -3,6 +3,7 @@ package robotgame.model;
 import robotgame.model.cellobject.CellObject;
 import robotgame.model.cellobject.Key;
 import robotgame.model.cellobject.Robot;
+import robotgame.model.fieldgeneration.FieldFactory;
 import robotgame.model.finishgamerule.FinishGameRulesHandler;
 import robotgame.model.finishgamerule.FinishGameRulesHandlerFactory;
 
@@ -15,17 +16,10 @@ public class Game {
     private final FinishGameRulesHandler finishGameRulesHandler;
     private final Robot robot;
 
-    public Game(FinishGameRulesHandlerFactory finishGameRulesHandlerFactoryFactory, int fieldWidth, int fieldHeight, int toSpawnKeysCount){
-        field = new HexagonField(fieldWidth, fieldHeight);
+    public Game(FinishGameRulesHandlerFactory finishGameRulesHandlerFactoryFactory, FieldFactory fieldFactory){
+        field = fieldFactory.create();
         this.finishGameRulesHandler = finishGameRulesHandlerFactoryFactory.create(field);
-        int keysCount = Utils.rnd.nextInt(toSpawnKeysCount) + 1;
-
-        for (int i = 0; i < keysCount; i++){
-            spawnObjectInRandomPosition(new Key());
-        }
-
-        robot = new Robot(field, Color.ORANGE);
-        spawnObjectInRandomPosition(robot);
+        robot = (Robot) field.getSpawnedObjects().stream().filter(obj -> obj instanceof Robot).findFirst().get();
     }
 
     public void moveRobot(HexagonDirection direction){
@@ -47,17 +41,5 @@ public class Game {
 
     public HexagonField getField() {
         return field;
-    }
-
-    private void spawnObjectInRandomPosition(CellObject cellObject){
-        do {
-            try {
-                Position position = Utils.getRandomPoint(field.getWidth(), field.getHeight());
-                field.spawnObject(cellObject, field.getCell(position));
-                return;
-            }
-            catch (InvalidParameterException ignored){}
-        }
-        while (true);
     }
 }

@@ -23,7 +23,7 @@ public class ExitFinishGameRule extends BaseGameRule {
 
     @Override
     protected boolean isFail() {
-        return !Utils.isRobotCanReach(field, true);
+        return !field.isRobotCanReach(true);
     }
 
     @Override

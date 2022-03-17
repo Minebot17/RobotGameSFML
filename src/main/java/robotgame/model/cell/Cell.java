@@ -5,7 +5,7 @@ import robotgame.model.HexagonField;
 import robotgame.model.Position;
 import robotgame.model.cellobject.CellObject;
 
-public abstract class Cell {
+public class Cell {
 
     private HexagonField field;
     private Position position;
@@ -19,8 +19,6 @@ public abstract class Cell {
     public Cell getNeighbor(HexagonDirection direction){
         return field.getCell(direction.toPosition(position.y % 2 == 1).add(position));
     }
-
-    public abstract boolean canContainsOnlyRobot();
 
     public void setContainedObject(CellObject mutualCellObject) {
         if (this.containedObject != null && mutualCellObject == null) {

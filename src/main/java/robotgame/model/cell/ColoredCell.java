@@ -7,22 +7,17 @@ import java.awt.*;
 
 public class ColoredCell extends Cell {
 
-    private Color currentColor = Color.white;
+    private Color currentFootprint = Color.white;
 
     public ColoredCell(HexagonField field, Position currentPosition) {
         super(field, currentPosition);
     }
 
-    public Color getCurrentColor() {
-        return currentColor;
+    public Color getCurrentFootprint() {
+        return currentFootprint;
     }
 
-    public void setCurrentColor(Color currentColor) {
-        this.currentColor = currentColor;
-    }
-
-    @Override
-    public boolean canContainsOnlyRobot() {
-        return true;
+    public void setCurrentFootprint(Color currentFootprint) {
+        this.currentFootprint = currentFootprint;
     }
 }

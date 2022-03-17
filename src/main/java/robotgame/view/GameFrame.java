@@ -3,8 +3,10 @@ package robotgame.view;
 import robotgame.model.Game;
 import robotgame.model.HexagonDirection;
 import robotgame.model.Utils;
+import robotgame.model.fieldgeneration.RandomPositionsFieldFactory;
 import robotgame.model.finishgamerule.FinishGameRulesHandler;
 import robotgame.model.finishgamerule.FinishGameRulesHandlerFactory;
+import robotgame.model.finishgamerule.RuleLinkType;
 import robotgame.model.finishgamerule.rules.ExitFinishGameRuleFactory;
 import robotgame.model.finishgamerule.rules.KeysFinishGameRuleFactory;
 import robotgame.model.finishgamerule.rules.RobotStepsFinishGameRule;
@@ -21,27 +23,27 @@ public class GameFrame extends JFrame {
     private final Game game;
     private final List<FinishGameRulesHandlerFactory> rulesList = new ArrayList<>(){{
         add(new FinishGameRulesHandlerFactory(new ArrayList<>() {{
-            add(new FinishGameRulesHandler.RuleParameters(new KeysFinishGameRuleFactory(), false, false));
-            add(new FinishGameRulesHandler.RuleParameters(new ExitFinishGameRuleFactory(), false, false));
+            add(new FinishGameRulesHandler.RuleParameters(new KeysFinishGameRuleFactory(), false, RuleLinkType.AND));
+            add(new FinishGameRulesHandler.RuleParameters(new ExitFinishGameRuleFactory(), false, RuleLinkType.AND));
         }}));
         add(new FinishGameRulesHandlerFactory(new ArrayList<>() {{
-            add(new FinishGameRulesHandler.RuleParameters(new KeysFinishGameRuleFactory(), true, false));
-            add(new FinishGameRulesHandler.RuleParameters(new ExitFinishGameRuleFactory(), false, false));
+            add(new FinishGameRulesHandler.RuleParameters(new KeysFinishGameRuleFactory(), true, RuleLinkType.AND));
+            add(new FinishGameRulesHandler.RuleParameters(new ExitFinishGameRuleFactory(), false, RuleLinkType.AND));
         }}));
         add(new FinishGameRulesHandlerFactory(new ArrayList<>() {{
-            add(new FinishGameRulesHandler.RuleParameters(new KeysFinishGameRuleFactory(), false, true));
-            add(new FinishGameRulesHandler.RuleParameters(new ExitFinishGameRuleFactory(), false, true));
+            add(new FinishGameRulesHandler.RuleParameters(new KeysFinishGameRuleFactory(), false, RuleLinkType.OR));
+            add(new FinishGameRulesHandler.RuleParameters(new ExitFinishGameRuleFactory(), false, RuleLinkType.OR));
         }}));
         add(new FinishGameRulesHandlerFactory(new ArrayList<>() {{
-            add(new FinishGameRulesHandler.RuleParameters(new RobotStepsFinishGameRuleFactory(RobotStepsFinishGameRule.RuleMode.MORE, 10), false, false));
-            add(new FinishGameRulesHandler.RuleParameters(new ExitFinishGameRuleFactory(), false, false));
+            add(new FinishGameRulesHandler.RuleParameters(new RobotStepsFinishGameRuleFactory(RobotStepsFinishGameRule.RuleMode.MORE, 10), false, RuleLinkType.AND));
+            add(new FinishGameRulesHandler.RuleParameters(new ExitFinishGameRuleFactory(), false, RuleLinkType.AND));
         }}));
     }};
 
     public GameFrame() {
         FinishGameRulesHandlerFactory selectedHandlerFactory = rulesList.get(Utils.rnd.nextInt(rulesList.size()));
         JOptionPane.showMessageDialog(null, selectedHandlerFactory.toString());
-        game = new Game(selectedHandlerFactory, 8, 8, 3);
+        game = new Game(selectedHandlerFactory, new RandomPositionsFieldFactory(8, 8, 3));
         HexagonFieldView hexagonFieldView = new HexagonFieldView(game.getField());
 
         setContentPane(hexagonFieldView);

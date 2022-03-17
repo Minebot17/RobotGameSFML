@@ -40,7 +40,7 @@ public class FinishGameRulesHandler {
                 isCompleteConditionsMet = !isCompleteConditionsMet;
             }
 
-            if (!parameters.isIndependent){
+            if (parameters.ruleLinkType != RuleLinkType.OR){
                 haveNotIndependent = true;
                 notIndependentComplete &= isCompleteConditionsMet;
 
@@ -102,7 +102,7 @@ public class FinishGameRulesHandler {
     public String toString() {
         StringBuilder result = new StringBuilder();
         for (RuleParameters parameters : gameRulesParameters) {
-            if (parameters.isIndependent){
+            if (parameters.ruleLinkType == RuleLinkType.OR){
                 continue;
             }
 
@@ -118,7 +118,7 @@ public class FinishGameRulesHandler {
         }
 
         for (RuleParameters parameters : gameRulesParameters) {
-            if (!parameters.isIndependent) {
+            if (parameters.ruleLinkType != RuleLinkType.OR) {
                 continue;
             }
 
@@ -142,12 +142,12 @@ public class FinishGameRulesHandler {
         private FinishGameRule rule;
 
         public final boolean completeConditionsIsNegative;
-        public final boolean isIndependent;
+        public final RuleLinkType ruleLinkType;
 
-        public RuleParameters(FinishGameRuleFactory ruleFactory, boolean completeConditionsIsNegative, boolean isIndependent) {
+        public RuleParameters(FinishGameRuleFactory ruleFactory, boolean completeConditionsIsNegative, RuleLinkType ruleLinkType) {
             this.ruleFactory = ruleFactory;
             this.completeConditionsIsNegative = completeConditionsIsNegative;
-            this.isIndependent = isIndependent;
+            this.ruleLinkType = ruleLinkType;
         }
 
         public void initialize(HexagonField field){

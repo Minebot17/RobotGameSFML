@@ -91,6 +91,6 @@ public class CellView extends JPanel {
     }
 
     private Color getCellColor(){
-        return cell instanceof ColoredCell ? ((ColoredCell)cell).getCurrentColor() : Color.white;
+        return cell instanceof ColoredCell ? ((ColoredCell)cell).getCurrentFootprint() : Color.white;
     }
 }
