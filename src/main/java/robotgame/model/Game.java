@@ -1,14 +1,9 @@
 package robotgame.model;
 
-import robotgame.model.cellobject.CellObject;
-import robotgame.model.cellobject.Key;
 import robotgame.model.cellobject.Robot;
 import robotgame.model.fieldgeneration.FieldFactory;
 import robotgame.model.finishgamerule.FinishGameRulesHandler;
 import robotgame.model.finishgamerule.FinishGameRulesHandlerFactory;
-
-import java.awt.*;
-import java.security.InvalidParameterException;
 
 public class Game {
 
@@ -22,7 +17,7 @@ public class Game {
         robot = (Robot) field.getSpawnedObjects().stream().filter(obj -> obj instanceof Robot).findFirst().get();
     }
 
-    public void moveRobot(HexagonDirection direction){
+    public void doStep(HexagonDirection direction){
         if (finishGameRulesHandler.isGameOver()){
             return;
         }

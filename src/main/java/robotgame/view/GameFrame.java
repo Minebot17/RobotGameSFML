@@ -69,22 +69,22 @@ public class GameFrame extends JFrame {
             int code = e.getKeyCode();
 
             if(code == KeyEvent.VK_Q) {
-                game.moveRobot(HexagonDirection.LEFT_UP);
+                game.doStep(HexagonDirection.LEFT_UP);
             }
             else if(code == KeyEvent.VK_W) {
-                game.moveRobot(HexagonDirection.RIGHT_UP);
+                game.doStep(HexagonDirection.RIGHT_UP);
             }
             else if(code == KeyEvent.VK_A) {
-                game.moveRobot(HexagonDirection.LEFT);
+                game.doStep(HexagonDirection.LEFT);
             }
             else if(code == KeyEvent.VK_S) {
-                game.moveRobot(HexagonDirection.RIGHT);
+                game.doStep(HexagonDirection.RIGHT);
             }
             else if(code == KeyEvent.VK_Z) {
-                game.moveRobot(HexagonDirection.LEFT_DOWN);
+                game.doStep(HexagonDirection.LEFT_DOWN);
             }
             else if(code == KeyEvent.VK_X) {
-                game.moveRobot(HexagonDirection.RIGHT_DOWN);
+                game.doStep(HexagonDirection.RIGHT_DOWN);
             }
 
             repaint();
