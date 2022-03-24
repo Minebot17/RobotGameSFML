@@ -3,16 +3,17 @@ package robotgame.model.finishgamerule.rules;
 import robotgame.model.HexagonField;
 import robotgame.model.Utils;
 import robotgame.model.cell.ExitCell;
-import robotgame.model.cellobject.CellObject;
 import robotgame.model.cellobject.Robot;
 import robotgame.model.finishgamerule.BaseGameRule;
-
-import java.util.List;
+import robotgame.model.pathfinding.PathFinder;
 
 public class ExitFinishGameRule extends BaseGameRule {
 
-    public ExitFinishGameRule(HexagonField field) {
+    private final PathFinder pathFinder;
+
+    public ExitFinishGameRule(HexagonField field, PathFinder pathFinder) {
         super(field);
+        this.pathFinder = pathFinder;
     }
 
     @Override
@@ -23,7 +24,7 @@ public class ExitFinishGameRule extends BaseGameRule {
 
     @Override
     protected boolean isFail() {
-        return !field.isRobotCanReach(true);
+        return !pathFinder.isRobotCanReach(Utils.EXIT_TARGET_FILTER);
     }
 
     @Override

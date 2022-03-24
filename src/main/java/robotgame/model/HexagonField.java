@@ -4,7 +4,6 @@ import robotgame.model.cell.Cell;
 import robotgame.model.cell.ColoredCell;
 import robotgame.model.cell.ExitCell;
 import robotgame.model.cellobject.CellObject;
-import robotgame.model.cellobject.Key;
 import robotgame.model.cellobject.Robot;
 
 import java.security.InvalidParameterException;
@@ -62,39 +61,6 @@ public class HexagonField {
         }
 
         spawnedObjects.remove(cellObject);
-    }
-
-    public boolean isRobotCanReach(boolean exit){
-        Robot robot = (Robot) getSpawnedObjects().stream().filter(obj -> obj instanceof Robot).findFirst().orElse(null);
-
-        List<Cell> checkedCells = new ArrayList<>();
-        List<Cell> toCheckCells = new ArrayList<>();
-        toCheckCells.add(robot.getCell());
-
-        while (!toCheckCells.isEmpty()){
-            Cell currentCell = toCheckCells.get(0);
-
-            for (HexagonDirection direction : HexagonDirection.values()){
-                Cell nextCell = currentCell.getNeighbor(direction);
-
-                if (nextCell != null && robot.isCellValidForMove(nextCell) && !checkedCells.contains(nextCell)){
-                    toCheckCells.add(nextCell);
-                    checkedCells.add(nextCell);
-                }
-            }
-
-            if (exit && currentCell instanceof ExitCell){
-                return true;
-            }
-
-            if (!exit && currentCell.getContainedObject() instanceof Key){
-                return true;
-            }
-
-            toCheckCells.remove(0);
-        }
-
-        return false;
     }
 
     public Cell getCell(Position position){

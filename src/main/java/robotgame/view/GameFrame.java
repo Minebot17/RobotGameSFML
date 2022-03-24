@@ -11,6 +11,8 @@ import robotgame.model.finishgamerule.rules.ExitFinishGameRuleFactory;
 import robotgame.model.finishgamerule.rules.KeysFinishGameRuleFactory;
 import robotgame.model.finishgamerule.rules.RobotStepsFinishGameRule;
 import robotgame.model.finishgamerule.rules.RobotStepsFinishGameRuleFactory;
+import robotgame.model.pathfinding.NeighborPathFinderFactory;
+import robotgame.model.pathfinding.PathFinderFactory;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -21,22 +23,23 @@ import java.util.List;
 public class GameFrame extends JFrame {
 
     private final Game game;
+    private final PathFinderFactory pathFinder = new NeighborPathFinderFactory();
     private final List<FinishGameRulesHandlerFactory> rulesList = new ArrayList<>(){{
         add(new FinishGameRulesHandlerFactory(new ArrayList<>() {{
-            add(new FinishGameRulesHandler.RuleParameters(new KeysFinishGameRuleFactory(), false, RuleLinkType.AND));
-            add(new FinishGameRulesHandler.RuleParameters(new ExitFinishGameRuleFactory(), false, RuleLinkType.AND));
+            add(new FinishGameRulesHandler.RuleParameters(new KeysFinishGameRuleFactory(pathFinder), false, RuleLinkType.AND));
+            add(new FinishGameRulesHandler.RuleParameters(new ExitFinishGameRuleFactory(pathFinder), false, RuleLinkType.AND));
         }}));
         add(new FinishGameRulesHandlerFactory(new ArrayList<>() {{
-            add(new FinishGameRulesHandler.RuleParameters(new KeysFinishGameRuleFactory(), true, RuleLinkType.AND));
-            add(new FinishGameRulesHandler.RuleParameters(new ExitFinishGameRuleFactory(), false, RuleLinkType.AND));
+            add(new FinishGameRulesHandler.RuleParameters(new KeysFinishGameRuleFactory(pathFinder), true, RuleLinkType.AND));
+            add(new FinishGameRulesHandler.RuleParameters(new ExitFinishGameRuleFactory(pathFinder), false, RuleLinkType.AND));
         }}));
         add(new FinishGameRulesHandlerFactory(new ArrayList<>() {{
-            add(new FinishGameRulesHandler.RuleParameters(new KeysFinishGameRuleFactory(), false, RuleLinkType.OR));
-            add(new FinishGameRulesHandler.RuleParameters(new ExitFinishGameRuleFactory(), false, RuleLinkType.OR));
+            add(new FinishGameRulesHandler.RuleParameters(new KeysFinishGameRuleFactory(pathFinder), false, RuleLinkType.OR));
+            add(new FinishGameRulesHandler.RuleParameters(new ExitFinishGameRuleFactory(pathFinder), false, RuleLinkType.OR));
         }}));
         add(new FinishGameRulesHandlerFactory(new ArrayList<>() {{
             add(new FinishGameRulesHandler.RuleParameters(new RobotStepsFinishGameRuleFactory(RobotStepsFinishGameRule.RuleMode.MORE, 10), false, RuleLinkType.AND));
-            add(new FinishGameRulesHandler.RuleParameters(new ExitFinishGameRuleFactory(), false, RuleLinkType.AND));
+            add(new FinishGameRulesHandler.RuleParameters(new ExitFinishGameRuleFactory(pathFinder), false, RuleLinkType.AND));
         }}));
     }};
 

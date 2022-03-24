@@ -5,13 +5,17 @@ import robotgame.model.Utils;
 import robotgame.model.cellobject.CellObject;
 import robotgame.model.cellobject.Key;
 import robotgame.model.finishgamerule.BaseGameRule;
+import robotgame.model.pathfinding.PathFinder;
 
 import java.util.List;
 
 public class KeysFinishGameRule extends BaseGameRule {
 
-    public KeysFinishGameRule(HexagonField field) {
+    private final PathFinder pathFinder;
+
+    public KeysFinishGameRule(HexagonField field, PathFinder pathFinder) {
         super(field);
+        this.pathFinder = pathFinder;
     }
 
     @Override
@@ -29,7 +33,7 @@ public class KeysFinishGameRule extends BaseGameRule {
 
     @Override
     protected boolean isFail() {
-        return !field.isRobotCanReach(false);
+        return !pathFinder.isRobotCanReach(Utils.KEY_TARGET_FILTER);
     }
 
     @Override

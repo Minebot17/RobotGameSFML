@@ -1,13 +1,9 @@
 package robotgame.model.finishgamerule.rules;
 
 import robotgame.model.HexagonField;
-import robotgame.model.Position;
 import robotgame.model.cell.Cell;
-import robotgame.model.cellobject.CellObject;
 import robotgame.model.cellobject.Robot;
 import robotgame.model.finishgamerule.BaseGameRule;
-
-import java.util.List;
 
 public class RobotStepsFinishGameRule extends BaseGameRule {
 

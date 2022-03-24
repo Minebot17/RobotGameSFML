@@ -1,7 +1,6 @@
 package robotgame.model.finishgamerule;
 
 import robotgame.model.HexagonField;
-import robotgame.model.finishgamerule.FinishGameRule;
 
 public abstract class BaseGameRule implements FinishGameRule {
 
