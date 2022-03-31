@@ -5,7 +5,7 @@ import robotgame.model.HexagonField;
 import robotgame.model.Position;
 import robotgame.model.cellobject.CellObject;
 
-public class Cell {
+public abstract class Cell {
 
     private HexagonField field;
     private Position position;
