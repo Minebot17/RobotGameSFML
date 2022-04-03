@@ -7,7 +7,8 @@ import java.awt.*;
 
 public class ColoredCell extends Cell {
 
-    private Color currentFootprint = Color.white;
+    public static final Color defaultFootprint = Color.white;
+    private Color currentFootprint = defaultFootprint;
 
     public ColoredCell(HexagonField field, Position currentPosition) {
         super(field, currentPosition);

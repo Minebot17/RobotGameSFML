@@ -12,9 +12,9 @@ import java.security.InvalidParameterException;
 
 public class RandomPositionsFieldFactory implements FieldFactory {
 
-    private int fieldWidth;
-    private int fieldHeight;
-    private int maxKeysCount;
+    private final int fieldWidth;
+    private final int fieldHeight;
+    private final int maxKeysCount;
 
     public RandomPositionsFieldFactory(int fieldWidth, int fieldHeight, int maxKeysCount){
         this.fieldWidth = fieldWidth;
@@ -24,7 +24,7 @@ public class RandomPositionsFieldFactory implements FieldFactory {
 
     @Override
     public HexagonField create() {
-        HexagonField field = new HexagonField(fieldWidth, fieldHeight);
+        HexagonField field = new HexagonField(fieldWidth, fieldHeight, Utils.getRandomPoint(fieldWidth, fieldHeight));
         int keysCount = Utils.rnd.nextInt(maxKeysCount) + 1;
 
         for (int i = 0; i < keysCount; i++){

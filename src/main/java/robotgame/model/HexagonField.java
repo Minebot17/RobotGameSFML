@@ -17,7 +17,7 @@ public class HexagonField {
     private final int width;
     private final int height;
 
-    public HexagonField(int width, int height){
+    public HexagonField(int width, int height, Position exitPosition){
         if (width < 1 || height < 1){
             throw new InvalidParameterException();
         }
@@ -25,14 +25,13 @@ public class HexagonField {
         this.width = width;
         this.height = height;
 
-        cells = new Cell[height][width];
+        cells = new Cell[width][height];
         for (int x = 0; x < width; x++){
             for (int y = 0; y < height; y++){
                 cells[x][y] = new ColoredCell(this, new Position(x, y));
             }
         }
 
-        Position exitPosition = Utils.getRandomPoint(width, height);
         cells[exitPosition.x][exitPosition.y] = new ExitCell(this, exitPosition);
     }
 

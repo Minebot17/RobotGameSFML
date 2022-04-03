@@ -33,7 +33,7 @@ public class KeysFinishGameRule extends BaseGameRule {
 
     @Override
     protected boolean isFail() {
-        return !pathFinder.isRobotCanReach(Utils.KEY_TARGET_FILTER);
+        return !isComplete() && !pathFinder.isRobotCanReach(Utils.KEY_TARGET_FILTER);
     }
 
     @Override

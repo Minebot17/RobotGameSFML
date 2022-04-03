@@ -46,4 +46,8 @@ public class Robot extends CellObject {
             ((ColoredCell)cell).setCurrentFootprint(footprintColor);
         }
     }
+
+    public Color getFootprintColor() {
+        return footprintColor;
+    }
 }
