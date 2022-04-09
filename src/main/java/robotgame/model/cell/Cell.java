@@ -33,4 +33,6 @@ public abstract class Cell {
     }
 
     public CellObject getContainedObject() { return containedObject; }
+
+    public Position getPosition() { return position; }
 }
